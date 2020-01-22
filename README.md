@@ -95,7 +95,7 @@ Config files are in `.json` format:
 }
 ```
 #### `predict_config.json` for training
-```json
+```js
 {
     "name": "Sequence_clf",
     "n_gpu": 1,
