@@ -33,44 +33,44 @@ Config files are in `.json` format:
 #### `config.json` for training
 ```js
 {
-    "name": "Sequence_clf", # Name of the classifier
-    "n_gpu": 1, # number of GPU to use
+    "name": "Sequence_clf", // Name of the classifier
+    "n_gpu": 1, // number of GPU to use
 
     "arch": {
-        "type": "SeqModel", # Type os the model, we have only SeqModel here
+        "type": "SeqModel", // Type os the model, we have only SeqModel here
         "args": {
-            "input_size": 4, # The width of the input
-            "hidden_size": 128, # number of hidden units for LSTM
-            "num_layers": 1, # number of layers
-            "num_classes": 2, # number of classes, here we have 2
-            "batch_first": true, # batch is the first dimension
-            "bidirectional": true # is bi-direction LSTM?
+            "input_size": 4, // The width of the input
+            "hidden_size": 128, // number of hidden units for LSTM
+            "num_layers": 1, // number of layers
+            "num_classes": 2, // number of classes, here we have 2
+            "batch_first": true, // batch is the first dimension
+            "bidirectional": true // is bi-direction LSTM?
         }
     },
     "data_loader": {
         "type": "SeqDataLoader",
         "args": {
-            "seq_data": { # here to define the path to input sequences
+            "seq_data": { // here to define the path to input sequences
                 "0": "../datasets/non-rrna-train-1m.fasta",
                 "1": "../datasets/rrna-train-1m.fasta"
             },
-            "min_seq_len": 100, # the sequence length of the input
+            "min_seq_len": 100, //the sequence length of the input
             "batch_size": 1024,
             "shuffle": true, 
-            "validation_split": 0.1, # the fraction of the input as validation set
-            "num_workers": 2 # number of threads for data loading
+            "validation_split": 0.1, // the fraction of the input as validation set
+            "num_workers": 2 // number of threads for data loading
         }
     },
     "optimizer": {
         "type": "Adam",
         "args": {
-            "lr": 0.001, # learning rate
+            "lr": 0.001, // learning rate
             "weight_decay": 0,
             "amsgrad": true
         }
     },
     "loss": "cross_entropy",
-    "metrics": [ # metrics to report during training
+    "metrics": [ // metrics to report during training
         "recall", "accuracy", "precision", "F1", "mcc"
     ],
     "lr_scheduler": {
@@ -81,7 +81,7 @@ Config files are in `.json` format:
         }
     },
     "trainer": {
-        "epochs": 20, # number of epochs
+        "epochs": 20, // number of epochs
 
         "save_dir": "saved/",
         "save_period": 1,
@@ -95,13 +95,13 @@ Config files are in `.json` format:
 }
 ```
 #### `predict_config.json` for training
-```js
+```json
 {
     "name": "Sequence_clf",
     "n_gpu": 1,
     "arch": {
         "type": "SeqModel",
-        "args": { # please keep this the same with the trained model
+        "args": { // please keep this the same with the trained model
             "input_size": 4,
             "hidden_size": 128,
             "num_layers": 1,
