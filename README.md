@@ -31,7 +31,7 @@ Before you run, please modify the `config.json` for training and `predict_config
 
 Config files are in `.json` format:
 #### `config.json` for training
-```json
+```js
 {
     "name": "Sequence_clf", # Name of the classifier
     "n_gpu": 1, # number of GPU to use
@@ -95,7 +95,7 @@ Config files are in `.json` format:
 }
 ```
 #### `predict_config.json` for training
-```json
+```js
 {
     "name": "Sequence_clf",
     "n_gpu": 1,
