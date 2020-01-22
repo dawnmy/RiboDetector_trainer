@@ -1,0 +1,20 @@
+{
+    "name": "Sequence_clf",
+    "n_gpu": 1,
+    "arch": {
+        "type": "SeqModel",
+        "args": {
+            "input_size": 4,
+            "hidden_size": 128,
+            "num_layers": 1,
+            "num_classes": 2,
+            "batch_first": true,
+            "bidirectional": true
+        }
+    },
+    "state_file": {
+        "read_len50": "saved/models/Sequence_clf/1126_180524/model_best.pth",
+        "read_len100": "saved/models/Sequence_clf/1127_161445/model_best.pth",
+        "read_len150": "saved/models/Sequence_clf/1126_180524/model_best.pth"
+    }
+}
