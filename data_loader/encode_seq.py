@@ -1,13 +1,14 @@
-# from Bio import SeqIO
-from pathlib import Path
+from multiprocessing import Pool
+# from fastx_parser import seq_parser
+from Bio.Alphabet import generic_dna
+from Bio.Seq import Seq
 import gzip
 from itertools import chain
-from Bio.Seq import Seq
-from Bio.Alphabet import generic_dna
-from multiprocessing import Pool
-from mimetypes import guess_type
+from pathlib import Path
 from functools import partial
+from mimetypes import guess_type
 from data_loader.fastx_parser import seq_parser
+
 
 BASE_DICT = {"A": (1, 0, 0, 0),
              "C": (0, 1, 0, 0),
@@ -39,50 +40,7 @@ and followed by ".gz" or ".gzip" if they are gzipped.""".format(seq_file_ext))
     return seq_format
 
 
-# def parse_seq_file(seq_file):
-#     seq_format = get_seq_format(seq_file)
-
-#     _open = open if seq_format.endswith("gz") else partial(gzip.open, mode='rt')
-#     seq_type = "fasta" if seq_format.startswith("fa") else "fastq"
-
-#     with _open(seq_file) as fh:
-#         return SeqIO.parse(fh, seq_type)
-
-
-def load_encoded_seqs(seq_file, min_seq_length, cores=4):
-    # dataset = []
-    seq_format = get_seq_format(seq_file)
-    _open = partial(gzip.open, mode='rt') if seq_format.endswith("gz") else open
-    seq_type = "fasta" if seq_format.startswith("fa") else "fastq"
-    partial_encode_seq = partial(
-        encode_seq, min_seq_length=min_seq_length)
-    pool = Pool(processes=cores)
-    with _open(seq_file) as fh:
-        encoded_seq = pool.map_async(partial_encode_seq, (seq for name,
-                                                          seq in seq_parser(fh, seq_type))).get()
-        # for record in seq_parser(fh, seq_type):
-        #     features = encode_seq(record[1], min_seq_length)
-        #     try:
-        #         dataset.append(features)
-        #     except NameError as e:
-        #         print(NameError("Can not concatenate the np array", e))
-    return encoded_seq
-
-
-def encode_seq(seq, min_seq_length):
-    read_length = len(seq)
-    if read_length > min_seq_length:
-        start = (read_length - min_seq_length) // 2
-        end = min_seq_length + start
-        seq = seq[start:end]
-    seq_feature = [BASE_DICT.get(base, ZERO_LIST) for base in seq]
-    if read_length < min_seq_length:
-        seq_feature.extend([ZERO_LIST] * (min_seq_length - read_length))
-
-    return seq_feature
-
-
-def load_encoded_seq_reads(seq_file, read_len=100, step=20, cores=4):
+def load_encoded_seq(seq_file, read_len=100, step=20, cores=4):
     seq_format = get_seq_format(seq_file)
     _open = partial(gzip.open, mode='rt') if seq_format.endswith(
         "gz") else open
@@ -125,15 +83,16 @@ def encode_seq_reads(seq, read_len=100, step=10):
                     encoded_read_list.append(read_feature)
                 break
     return encoded_read_list
+    # return seq_feature
 
 # if __name__ == "__main__":
 #     mRNA_seq_file = "datasets/illumina-non-rrna-reads.fasta"
-#     #rRNA_seq_file = "datasets/set1-illumina-rrna-reads-head1000.fasta"
+#     # rRNA_seq_file = "datasets/set1-illumina-rrna-reads-head1000.fasta"
 
 #     #print("Extracting features from sequences")
-#     mRNA_data = all_seqs_x(mRNA_seq_file, "fasta", 100)
-#     #rRNA_data = all_seqs_x(rRNA_seq_file, "fasta", 100)
+#     mRNA_data = all_seqs_x_multip(mRNA_seq_file)
+#     # rRNA_data = all_seqs_x_multip(rRNA_seq_file)
 
 #     #train_data = np.expand_dims(np.concatenate((mRNA_data, rRNA_data)), axis=1)
 #     #train_target = np.array([0] * 1000 + [1] * 1000)
-#     print(len(mRNA_data))
+#     print(mRNA_data)

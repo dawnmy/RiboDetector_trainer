@@ -105,8 +105,12 @@ data/
 input/
 saved/
 datasets/
+saved_model
 
 # editor, os cache directory
 .vscode/
 .idea/
 __MACOSX/
+.model
+.plt
+

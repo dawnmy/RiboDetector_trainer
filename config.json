@@ -17,14 +17,14 @@
         "type": "SeqDataLoader",
         "args": {
             "seq_data": {
-                "0": "../datasets/illumina-non-rrna-reads-exclude-tail1000.fasta",
-                "1": "../datasets/set1-illumina-rrna-reads-exclude-tail1000.fasta"
+                "0": "../datasets/new_rRNA_2018.fa",
+                "1": "../datasets/new_mRNA.cds.fa"
             },
             "min_seq_len": 100,
-            "batch_size": 1024,
+            "batch_size": 3072,
             "shuffle": true,
             "validation_split": 0.1,
-            "num_workers": 2
+            "num_workers": 4
         }
     },
     "optimizer": {

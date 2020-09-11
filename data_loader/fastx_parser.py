@@ -37,16 +37,21 @@ def seq_parser(seq_fh, seq_type):
                 record_line = 0
 
     else:
-        seq = header = ''
+        seq = ''
+        header = ''
         for line in seq_fh:
-            line = line.rstrip()
-            if line[0] == '>' and seq != '':
-                yield header, seq
-                header = line
-                seq = ''
-            else:
-                seq += line.upper()
-        if seq != '':
+            line = line.strip()
+            if line != '':
+                if line[0] == '>':
+                    if header != '':
+                        yield header, seq
+                        header = line
+                        seq = ''
+                    else:
+                        header = line
+                else:
+                    seq += line.upper()
+        if seq != '' and seq is not None:
             yield header, seq
 
 
